@@ -1,0 +1,226 @@
+import {
+  HoldersRequest,
+  TotalHoldersRequest,
+  SupplyRequest,
+  BalanceRequest,
+  TransferRequest,
+  GetFeeRequest,
+  SetFeeRequest,
+  SetFeeToRequest,
+  TransactionRequest,
+  ApproveRequest,
+  AllowanceRequest,
+  MetadataRequest,
+  SetLogoRequest,
+  LogoRequest,
+  ActualReceivedByTransferRequest,
+} from "./BaseTokenAdapter";
+import { EXTAdapter, EXTTokenAdapter } from "./EXTAdapter";
+import { DIP20Adapter, DIP20TokenAdapter } from "./DIP20Adapter";
+import { DIP20WICPAdapter, DIP20WICPTokenAdapter } from "./DIP20WICPAdapter";
+import { DIP20XTCAdapter, DIP20XTCTokenAdapter } from "./DIP20XTCAdapter";
+import { icrc1Adapter, ICRC1Adapter } from "./ICRC1";
+import { icrc2Adapter, ICRC2Adapter } from "./ICRC2";
+import { icpAdapter, ICPAdapter } from "./ICP";
+import { ActorIdentity } from "../../types/global";
+import { TOKEN_STANDARD } from "./types";
+import { Override } from "utils/sdk/index";
+
+export type AdapterRequest<T> = Override<T, {}>;
+
+export type AdapterIdentityRequest<T> = Override<T, { identity: ActorIdentity }>;
+
+export class Token {
+  public canisterAdapters = new Map<string, TOKEN_STANDARD>();
+  public adapters = new Map<
+    TOKEN_STANDARD,
+    | DIP20XTCTokenAdapter
+    | DIP20WICPTokenAdapter
+    | DIP20TokenAdapter
+    | EXTTokenAdapter
+    | ICRC1Adapter
+    | ICRC2Adapter
+    | ICPAdapter
+  >();
+
+  public initialAdapter(
+    name: TOKEN_STANDARD,
+    adapter:
+      | DIP20XTCTokenAdapter
+      | DIP20WICPTokenAdapter
+      | DIP20TokenAdapter
+      | EXTTokenAdapter
+      | ICRC1Adapter
+      | ICRC2Adapter
+      | ICPAdapter
+  ) {
+    if (this.adapters.get(name)) throw Error("This adapter is already initialed");
+    this.adapters.set(name, adapter);
+  }
+
+  public register({ canisterIds, standard }: { canisterIds: string[]; standard: TOKEN_STANDARD }) {
+    canisterIds.forEach((canisterId) => {
+      this.canisterAdapters.set(canisterId, standard);
+    });
+  }
+
+  public getAll() {
+    return this.canisterAdapters;
+  }
+
+  public getAdapter(canisterId: string) {
+    let standard = this.canisterAdapters.get(canisterId);
+    if (!standard) {
+      console.error(`Can't not found adapter ===> ${canisterId}`);
+      standard = TOKEN_STANDARD.EXT;
+    }
+    return this.getAdapterByName(standard);
+  }
+
+  public getAdapterByName(adapterName: TOKEN_STANDARD | undefined) {
+    if (!adapterName || !this.adapters.get(adapterName)) throw Error(`Can't not found adapter ${adapterName}`);
+    return this.adapters.get(adapterName);
+  }
+
+  public async totalHolders({ canisterId }: AdapterRequest<TotalHoldersRequest>) {
+    const adapter = this.getAdapter(canisterId);
+    return await adapter!.totalHolders({ canisterId });
+  }
+
+  public async holders({ params, canisterId }: AdapterRequest<HoldersRequest>) {
+    const adapter = this.getAdapter(canisterId);
+    return await adapter!.holders({
+      canisterId,
+      params,
+    });
+  }
+
+  public async supply({ canisterId }: AdapterRequest<SupplyRequest>) {
+    const adapter = this.getAdapter(canisterId);
+    return await adapter!.supply({
+      canisterId,
+    });
+  }
+
+  public async balance({ canisterId, params }: AdapterRequest<BalanceRequest>) {
+    const adapter = this.getAdapter(canisterId);
+
+    return await adapter!.balance({
+      canisterId,
+      params,
+    });
+  }
+
+  public async transfer({ canisterId, params, identity }: AdapterIdentityRequest<TransferRequest>) {
+    const adapter = this.getAdapter(canisterId);
+    return await adapter!.transfer({
+      canisterId,
+      params,
+      identity,
+    });
+  }
+
+  public async getFee({ canisterId }: AdapterRequest<GetFeeRequest>) {
+    const adapter = this.getAdapter(canisterId);
+    return await adapter!.getFee({
+      canisterId,
+    });
+  }
+
+  public async setFee({ canisterId, identity, params }: AdapterIdentityRequest<SetFeeRequest>) {
+    const adapter = this.getAdapter(canisterId);
+    return await adapter!.setFee({
+      canisterId,
+      identity,
+      params,
+    });
+  }
+
+  public async setFeeTo({ canisterId, identity, params }: AdapterIdentityRequest<SetFeeToRequest>) {
+    const adapter = this.getAdapter(canisterId);
+    return await adapter!.setFeeTo({
+      canisterId,
+      identity,
+      params,
+    });
+  }
+
+  public async transactions({ canisterId, params }: AdapterRequest<TransactionRequest>) {
+    const adapter = this.getAdapter(canisterId);
+    return await adapter!.transactions({
+      canisterId,
+      params,
+    });
+  }
+
+  public async approve({ canisterId, identity, params }: AdapterRequest<ApproveRequest>) {
+    const adapter = this.getAdapter(canisterId);
+    return await adapter!.approve({
+      canisterId,
+      params,
+      identity,
+    });
+  }
+
+  public async allowance({ canisterId, params }: AdapterRequest<AllowanceRequest>) {
+    const adapter = this.getAdapter(canisterId);
+    return await adapter!.allowance({
+      canisterId,
+      params,
+    });
+  }
+
+  public async metadata({ canisterId }: AdapterRequest<MetadataRequest>) {
+    const adapter = this.getAdapter(canisterId);
+    return await adapter!.metadata({
+      canisterId,
+    });
+  }
+
+  public async setLogo({ canisterId, identity, params }: AdapterIdentityRequest<SetLogoRequest>) {
+    const adapter = this.getAdapter(canisterId);
+    return await adapter!.setLogo({
+      canisterId,
+      params,
+      identity,
+    });
+  }
+
+  public async logo({ canisterId }: AdapterRequest<LogoRequest>) {
+    const adapter = this.getAdapter(canisterId);
+    return await adapter!.logo({
+      canisterId,
+    });
+  }
+
+  public actualReceivedByTransfer(request: ActualReceivedByTransferRequest) {
+    const adapter = this.getAdapter(request.canisterId);
+    return adapter!.actualReceivedByTransfer(request);
+  }
+}
+
+export const Tokens = new Token();
+
+export const registerTokens = ({ canisterIds, standard }: { canisterIds: string[]; standard: TOKEN_STANDARD }) =>
+  Tokens.register({ canisterIds, standard });
+
+Tokens.initialAdapter(TOKEN_STANDARD.EXT, EXTAdapter);
+Tokens.initialAdapter(TOKEN_STANDARD.DIP20, DIP20Adapter);
+Tokens.initialAdapter(TOKEN_STANDARD.DIP20_XTC, DIP20XTCAdapter);
+Tokens.initialAdapter(TOKEN_STANDARD.DIP20_WICP, DIP20WICPAdapter);
+Tokens.initialAdapter(TOKEN_STANDARD.ICRC1, icrc1Adapter);
+Tokens.initialAdapter(TOKEN_STANDARD.ICRC2, icrc2Adapter);
+Tokens.initialAdapter(TOKEN_STANDARD.ICP, icpAdapter);
+
+export {
+  EXTAdapter,
+  DIP20Adapter,
+  DIP20XTCAdapter,
+  DIP20WICPAdapter,
+  ICRC1Adapter,
+  ICRC2Adapter,
+  icrc1Adapter,
+  icrc2Adapter,
+  icpAdapter,
+  ICPAdapter,
+};
