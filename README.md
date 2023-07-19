@@ -13,7 +13,7 @@ this is my first software project.
 
 i cannot into typescript; so theres that. 
 
-somw things:
+some things:
 canisters are set so each peice is its own. LaunchpadController LaunchpadManager and LaunchpadStorage are all assigned canisters. 
 
 Launchpad Interface also has its own cansiter.
