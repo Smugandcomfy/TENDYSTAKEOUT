@@ -10,3 +10,5 @@ hopefully deploy DIP20, EXT, ICRC1 & ICRC2 tokens
 many thanks to anybody interested
 
 this is my first software project. 
+
+i cannot into typescript; so theres that. 
