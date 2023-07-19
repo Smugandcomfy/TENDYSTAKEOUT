@@ -93,7 +93,7 @@ const MainCard = React.forwardRef(
           };
         case 5:
           return {
-            background: "#273051",
+            background: "#d41ca3",
             border: "0.5px solid #404558",
           };
         default:
