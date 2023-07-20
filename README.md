@@ -23,8 +23,9 @@ dev notes/milestones should contine below this line
 
 -----------------
 successes:
-local deployment backend.
-local deployment front end. 
+local deployment backendX
+local deployment front endX
+NOT YET ACHEIVED:
 beta testing ui colors, logos, aestestic
 beta testing functionality
 mainnet deployment back end
