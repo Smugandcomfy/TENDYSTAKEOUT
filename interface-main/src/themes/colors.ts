@@ -6,10 +6,10 @@ export default {
   paper: "#ffffff",
 
   // primary
-  primaryLight: "#e3f2fd",
+  primaryLight: "#3b8210",
   primary200: "#ffffff",
-  primaryMain: "#8672FF",
-  primaryDark: "#8672FF",
+  primaryMain: "#479119",
+  primaryDark: "#479119",
   primary800: "#1565c0",
 
   // secondary
