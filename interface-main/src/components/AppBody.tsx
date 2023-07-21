@@ -8,7 +8,7 @@ import Background from "components/Background";
 const useStyles = makeStyles((theme: Theme) => {
   return {
     appBar: {
-      backgroundColor: "#fc0394",
+      backgroundColor: "#2fa333",
     },
     content: {
       background: "transparent",
