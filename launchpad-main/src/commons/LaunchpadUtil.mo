@@ -21,11 +21,11 @@ module {
   public let ADMIN_LIST : [Text] = ["utwer-pnqaj-h75lm-beina-2y5hp-vbgen-cwt3v-pz3ug-wbqf4-cgeit-7ae"];
 
   public let defaultTokenInfo : Launchpad.TokenInfo = {
-    name = "";
-    symbol = "";
+    name = "TENDY";
+    symbol = "TENDY";
     logo = "";
     transFee = 0;
-    quantity = "";
+    quantity = "8";
   };
 
   public let defaultTokenSet : Launchpad.TokenSet = {
