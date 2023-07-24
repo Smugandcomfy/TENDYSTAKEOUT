@@ -30,7 +30,7 @@ actor LaunchpadController {
     private stable var launchpadArry : [Launchpad.Property] = [];
     private let launchpads : Buffer.Buffer<Launchpad.Property> = Buffer.Buffer<Launchpad.Property>(0);
 
-    private stable var whitelist : [Text] = ["4381980737c9b2fa5f45c8b977c63a96d6bbe1eb73ca87a80fb626867c981b51"];
+    private stable var whitelist : [Text] = ["utwer-pnqaj-h75lm-beina-2y5hp-vbgen-cwt3v-pz3ug-wbqf4-cgeit-7ae"];
 
     private let ic00 = actor "aaaaa-aa" : actor {
         update_settings : {
