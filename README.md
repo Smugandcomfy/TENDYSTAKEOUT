@@ -28,5 +28,8 @@ local deployment front endX
 NOT YET ACHEIVED:
 beta testing ui colors, logos, aestestic
 beta testing functionality
-mainnet deployment back end
-mainnet deployment front end 
+mainnet deployment back endX
+mainnet deployment front endX
+
+updates:
+commons have been updated
