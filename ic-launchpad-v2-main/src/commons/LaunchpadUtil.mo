@@ -16,7 +16,7 @@ module {
 
   public let CANISTER_NUMBER : Nat = 5;
 
-  public let WALLET_CANISTER_ID = "yudqc-5aaaa-aaaak-aacrq-cai";
+  public let WALLET_CANISTER_ID = "57jq4-bc5vn-dovvh-2x3vf-opdga-x7bsn-rz7tn-njbl2-undxf-ti2cr-hqe";
 
   public let ADMIN_LIST : [Text] = ["utwer-pnqaj-h75lm-beina-2y5hp-vbgen-cwt3v-pz3ug-wbqf4-cgeit-7ae"];
 
